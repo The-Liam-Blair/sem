@@ -1,9 +1,11 @@
 ## Software Engineering Methods
 
 
-**Build Status:** 
+**Master Build Status:** 
 [![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=master)](https://travis-ci.com/The-Liam-Blair/sem)
 
+** Develop Build Status:**
+[![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=develop)](https://travis-ci.com/The-Liam-Blair/sem)
 
 **License:**
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![LICENSE](https://img.shields.io/github/license/The-Liam-Blair/sem.svg?style=flat-square)](https://github.com/The-Liam-Blair/sem/blob/master/LICENSE)
