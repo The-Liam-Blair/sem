@@ -6,5 +6,5 @@ services:
   - docker
 
 after_success:
-  - docker built -t se_methods .
-  - docker run se_methods
+  - docker built -t seMethods *
+  - docker run seMethods
