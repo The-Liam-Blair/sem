@@ -11,6 +11,6 @@
     <properties>
         <maven.compiler.source>15.0.2</maven.compiler.source>
         <maven.compiler.target>15.0.2</maven.compiler.target>
-        <maven.compiler.release>15.0.2</maven.compiler.release>
+        <mavin.compiler.plugin>1.7</mavin.compiler.plugin>
     </properties>
 </project>
