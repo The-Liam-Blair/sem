@@ -9,7 +9,7 @@
     <version>0.1.0.1</version>
 
     <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>15.0</maven.compiler.source>
+        <maven.compiler.target>15.0</maven.compiler.target>
     </properties>
 </project>
