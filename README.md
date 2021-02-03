@@ -1,9 +1,5 @@
 ## Software Engineering Methods - Develop Branch
 
-
-**Master Build Status:** 
-[![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=master)](https://travis-ci.com/The-Liam-Blair/sem)
-
 **Develop Build Status:**
 [![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=develop)](https://travis-ci.com/The-Liam-Blair/sem)
 
