@@ -1,7 +1,7 @@
 ## Software Engineering Methods
 
 
-**Brnach Build Status:** 
+**Branch Build Status:** 
 [![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=feature%2Fmongo-integration)](https://travis-ci.com/The-Liam-Blair/sem)
 
 **License:**
