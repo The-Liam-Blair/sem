@@ -6,11 +6,53 @@
 
     <groupId>com.napier.sem</groupId>
     <artifactId>seMethods</artifactId>
-    <version>0.1.0.1</version>
+    <version>0.1.0.2(0.1-alpha-2)</version>
 
     <properties>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <mavin.compiler.plugin>1.7</mavin.compiler.plugin>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.6.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>3.3.0</version>
+            <type>maven-plugin</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                 <configuration>
+                     <archive>
+                         <manifest>
+                             <mainClass>com.napier.sem.App</mainClass>
+                         </manifest>
+                     </archive>
+                     <descriptorRefs>
+                         <descriptorRef>jar-with-dependencies</descriptorRef>
+                     </descriptorRefs>
+                 </configuration>
+                  <executions>
+                      <execution>
+                          <id>make-assembly</id>
+                          <phase>package</phase>
+                          <goals>
+                              <goal>single</goal>
+                          </goals>
+                      </execution>
+                  </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
