@@ -1,7 +1,7 @@
 ## Software Engineering Methods - Develop Branch
-
-**Develop Build Status:**
-[![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=develop)](https://travis-ci.com/The-Liam-Blair/sem)
+VERSION 0.1.0.2 (0.1-ALPHA-2)
+**Feature Build Status:**
+[![Build Status](https://travis-ci.com/The-Liam-Blair/sem.svg?branch=Feature)](https://travis-ci.com/The-Liam-Blair/sem)
 
 
 **License:**
