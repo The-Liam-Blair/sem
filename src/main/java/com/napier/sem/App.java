@@ -92,6 +92,25 @@ public class App {
                 emp.emp_no = rset.getInt("emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
+
+                if(rset.getString("title").equals("9999-01-01"))
+                {
+                    System.out.println("If statement passed");
+                    emp.title = rset.getString("title");
+                }
+                else
+                {
+                    System.out.println("If statement failed.");
+                    emp.title = rset.getString("title");
+                }
+
+                emp.title = rset.getString("title");
+                emp.salary = rset.getInt("salary");
+                emp.dept_name = rset.getString("dept_name");
+
+                int managerID = rset.getInt("dept_manager.emp_no");
+                rset = stmt.executeQuery("SELECT emp_no FROM employees WHERE emp_no = " + managerID);
+                emp.manager = rset.getString("first_name");
                 return emp;
             }
             else
