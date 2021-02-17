@@ -1,5 +1,6 @@
 package com.napier.sem;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 
 
@@ -66,9 +67,68 @@ public class App {
         }
     }
 
+    public Employee getEmployee(int ID)
+    {
+        try
+        {
+            // Statement object created
+            Statement stmt = con.createStatement();
+
+            // Query string created
+            String strSelect =
+                    "SELECT emp_no, first_name, last_name "
+                    + "FROM employees "
+                    + "WHERE emp_no = " + ID;
+
+            // Execute query
+            ResultSet rset = stmt.executeQuery(strSelect);
+
+            // Output.
+            // Returns database information represented as the Employee class if
+            // a valid ID was found.
+            if (rset.next())
+            {
+                Employee emp = new Employee();
+                emp.emp_no = rset.getInt("emp_no");
+                emp.first_name = rset.getString("first_name");
+                emp.last_name = rset.getString("last_name");
+                return emp;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        catch (Exception e)
+        {
+            System.out.println("Failed to retrieve employee details.");
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public void displayEmployee(Employee emp)
+    {
+        if (emp != null)
+        {
+            System.out.println(
+                    emp.emp_no + " "
+                    + emp.first_name + " "
+                    + emp.last_name + "\n"
+                    + emp.title + "\n"
+                    + "Salary: "  + emp.salary + "\n"
+                    + emp.dept_name + "\n"
+                    + "Manager: " + emp.manager + "\n");
+        }
+    }
+
     public static void main(String[] args) {
         App a = new App();
         a.Connect();
+
+        Employee emp = a.getEmployee(255530);
+        a.displayEmployee(emp);
+
         a.Disconnect();
     }
 }
