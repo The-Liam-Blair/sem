@@ -109,7 +109,7 @@ public class App {
                 emp.dept_name = rset.getString("dept_name");
 
                 int managerID = rset.getInt("dept_manager.emp_no");
-                rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
+                //rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
                 emp.manager = rset.getString("first_name");
                 return emp;
             }
