@@ -25,7 +25,7 @@ public class App {
             try
             {
                 // Wait for db to start
-                Thread.sleep(3000);
+                Thread.sleep(30000);
 
                 // Connect to the database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
