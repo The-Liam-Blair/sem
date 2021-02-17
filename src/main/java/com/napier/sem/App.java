@@ -87,9 +87,10 @@ public class App {
             // Output.
             // Returns database information represented as the Employee class if
             // a valid ID was found.
+            Employee emp = new Employee();
+            int managerID;
             if (rset.next())
             {
-                Employee emp = new Employee();
                 emp.emp_no = rset.getInt("employees.emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
@@ -108,15 +109,18 @@ public class App {
                 emp.salary = rset.getInt("salary");
                 emp.dept_name = rset.getString("dept_name");
 
-                int managerID = rset.getInt("dept_manager.emp_no");
-                //rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
-                emp.manager = rset.getString("first_name");
-                return emp;
+                managerID = rset.getInt("dept_manager.emp_no");
             }
             else
             {
                 return null;
             }
+            rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
+            if(rset.next())
+            {
+                emp.manager = rset.getString("first_name");
+            }
+            return emp;
         }
         catch (Exception e)
         {
