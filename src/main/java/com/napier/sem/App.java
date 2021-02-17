@@ -76,8 +76,9 @@ public class App {
 
             // Query string created
             String strSelect =
-                    "SELECT emp_no, first_name, last_name "
-                    + "FROM employees "
+                    "SELECT * "
+                    + "FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) " +
+                            "JOIN dept_manager ON (employees.emp_no = dept_manager.emp_no"
                     + "WHERE emp_no = " + ID;
 
             // Execute query
@@ -89,7 +90,7 @@ public class App {
             if (rset.next())
             {
                 Employee emp = new Employee();
-                emp.emp_no = rset.getInt("emp_no");
+                emp.emp_no = rset.getInt("employees.emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
 
@@ -104,7 +105,6 @@ public class App {
                     emp.title = rset.getString("title");
                 }
 
-                emp.title = rset.getString("title");
                 emp.salary = rset.getInt("salary");
                 emp.dept_name = rset.getString("dept_name");
 
