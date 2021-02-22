@@ -76,7 +76,7 @@ public class App {
 
             // Query string created
             String strSelect =
-                    "SELECT * "
+                    "SELECT employees.emp_no, first_name, last_name, title, salary "
                     + "FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) " +
                             "JOIN salaries ON (employees.emp_no = salaries.emp_no"
                     + "WHERE employees.emp_no = " + ID;
