@@ -157,11 +157,21 @@ public class App {
         }
     }
 
+    public void printSalaries(ArrayList<Employee> Employees)
+    {
+        System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp no", "First Name", "Last Name", "Salary"));
+        for (Employee emp : Employees)
+        {
+            String emp_string = String.format("%-10s %-15s %-20s %-8s", emp.emp_no, emp.first_name, emp.last_name, emp.salary);
+            System.out.println(emp_string);
+        }
+    }
+
     public static void main(String[] args) {
         App a = new App();
         a.Connect();
         ArrayList<Employee> Employees = a.getAllSalaries();
-        System.out.println(Employees.size());
+        a.printSalaries(Employees);
         a.Disconnect();
     }
 }
