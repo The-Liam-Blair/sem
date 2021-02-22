@@ -76,7 +76,7 @@ public class App {
 
             // Query string created
             String strSelect =
-                    "SELECT employees.emp_no, first_name, last_name. title, salary "
+                    "SELECT employees.emp_no, first_name, last_name, title, salary "
                     + "FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) " +
                             "JOIN salaries ON (employees.emp_no = salaries.emp_no) "
                     + "WHERE employees.emp_no = " + ID;
@@ -88,7 +88,6 @@ public class App {
             // Returns database information represented as the Employee class if
             // a valid ID was found.
             Employee emp = new Employee();
-            int managerID;
             if (rset.next())
             {
                 emp.emp_no = rset.getInt("employees.emp_no");
@@ -101,11 +100,6 @@ public class App {
             {
                 return null;
             }
-         //   rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
-         //   if(rset.next())
-        //    {
-         //       emp.manager = rset.getString("first_name");
-        //    }
             return emp;
         }
         catch (Exception e)
