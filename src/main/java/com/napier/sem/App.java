@@ -78,7 +78,7 @@ public class App {
             String strSelect =
                     "SELECT * "
                     + "FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) " +
-                            "JOIN dept_manager ON (employees.emp_no = dept_manager.emp_no"
+                            "JOIN salaries ON (employees.emp_no = salaries.emp_no"
                     + "WHERE emp_no = " + ID;
 
             // Execute query
@@ -94,32 +94,18 @@ public class App {
                 emp.emp_no = rset.getInt("employees.emp_no");
                 emp.first_name = rset.getString("first_name");
                 emp.last_name = rset.getString("last_name");
-
-                if(rset.getString("title").equals("9999-01-01"))
-                {
-                    System.out.println("If statement passed");
-                    emp.title = rset.getString("title");
-                }
-                else
-                {
-                    System.out.println("If statement failed.");
-                    emp.title = rset.getString("title");
-                }
-
+                emp.title = rset.getString("title");
                 emp.salary = rset.getInt("salary");
-                emp.dept_name = rset.getString("dept_name");
-
-                managerID = rset.getInt("dept_manager.emp_no");
             }
             else
             {
                 return null;
             }
-            rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
-            if(rset.next())
-            {
-                emp.manager = rset.getString("first_name");
-            }
+         //   rset = stmt.executeQuery("SELECT first_name FROM employees WHERE emp_no = " + managerID);
+         //   if(rset.next())
+        //    {
+         //       emp.manager = rset.getString("first_name");
+        //    }
             return emp;
         }
         catch (Exception e)
