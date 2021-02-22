@@ -2,6 +2,7 @@ package com.napier.sem;
 
 import javax.xml.transform.Result;
 import java.sql.*;
+import java.util.ArrayList;
 
 
 
@@ -123,13 +124,54 @@ public class App {
         }
     }
 
+    public ArrayList<Employee> getAllSalaries()
+    {
+        try
+        {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
+                    + "FROM employees, salaries "
+                    + "WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' "
+                    + "ORDER BY employees.emp_no ASC";
+
+            ResultSet rset = stmt.executeQuery(strSelect);
+            ArrayList<Employee> Employees = new ArrayList<Employee>();
+
+            while (rset.next())
+            {
+                Employee tempEmp = new Employee();
+                tempEmp.emp_no = rset.getInt("employees.emp_no");
+                tempEmp.first_name = rset.getString("employees.first_name");
+                tempEmp.last_name = rset.getString("employees.last_name");
+                tempEmp.salary = rset.getInt("salaries.salary");
+                Employees.add(tempEmp);
+            }
+            return Employees;
+        }
+
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to retrieve salary details");
+            return null;
+        }
+    }
+
+    public void printSalaries(ArrayList<Employee> Employees)
+    {
+        System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp no", "First Name", "Last Name", "Salary"));
+        for (Employee emp : Employees)
+        {
+            String emp_string = String.format("%-10s %-15s %-20s %-8s", emp.emp_no, emp.first_name, emp.last_name, emp.salary);
+            System.out.println(emp_string);
+        }
+    }
+
     public static void main(String[] args) {
         App a = new App();
         a.Connect();
-
-        Employee emp = a.getEmployee(255530);
-        a.displayEmployee(emp);
-
+        ArrayList<Employee> Employees = a.getAllSalaries();
+        a.printSalaries(Employees);
         a.Disconnect();
     }
 }
