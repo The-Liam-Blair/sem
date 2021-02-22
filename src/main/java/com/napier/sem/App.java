@@ -79,7 +79,7 @@ public class App {
                     "SELECT * "
                     + "FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) " +
                             "JOIN salaries ON (employees.emp_no = salaries.emp_no"
-                    + "WHERE emp_no = " + ID;
+                    + "WHERE employees.emp_no = " + ID;
 
             // Execute query
             ResultSet rset = stmt.executeQuery(strSelect);
