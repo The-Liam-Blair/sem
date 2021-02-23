@@ -1,5 +1,5 @@
 ## Software Engineering Methods - Develop Branch
-VERSION 0.1.0.2 (0.1-ALPHA-2)
+VERSION 0.1.0.4
 
 
 **Master Build Status:**
