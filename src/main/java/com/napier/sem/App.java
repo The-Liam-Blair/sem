@@ -1,5 +1,6 @@
 package com.napier.sem;
 
+import javax.swing.plaf.nimbus.State;
 import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class App {
                     + "ORDER BY employees.emp_no ASC";
 
             ResultSet rset = stmt.executeQuery(strSelect);
-            ArrayList<Employee> Employees = new ArrayList<Employee>();
+            ArrayList<Employee> Employees = new ArrayList<>();
 
             while (rset.next())
             {
@@ -157,6 +158,41 @@ public class App {
         }
     }
 
+    public ArrayList<Employee> GetSalaryByRole(String role)
+    {
+        try
+        {
+            Statement stmt = con.createStatement();
+            String strSelect = "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
+                    + "FROM employees, salaries, titles "
+                    + "WHERE employees.emp_no = salaries.emp_no "
+                    + "AND employees.emp_no = titles.emp_no "
+                    + "AND salaries.to_date = '9999-01-01' "
+                    + "AND titles.title = '" + role + "' "
+                    + "ORDER BY employees.emp_no ASC";
+
+            ResultSet rset = stmt.executeQuery(strSelect);
+            ArrayList<Employee> Employees = new ArrayList<>();
+
+            while (rset.next())
+            {
+                Employee tempEmp = new Employee();
+                tempEmp.emp_no = rset.getInt("employees.emp_no");
+                tempEmp.first_name = rset.getString("employees.first_name");
+                tempEmp.last_name = rset.getString("employees.last_name");
+                tempEmp.salary = rset.getInt("salaries.salary");
+                Employees.add(tempEmp);
+            }
+            return Employees;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to retrieve salary details");
+            return null;
+        }
+    }
+
     public void printSalaries(ArrayList<Employee> Employees)
     {
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp no", "First Name", "Last Name", "Salary"));
@@ -170,7 +206,7 @@ public class App {
     public static void main(String[] args) {
         App a = new App();
         a.Connect();
-        ArrayList<Employee> Employees = a.getAllSalaries();
+        ArrayList<Employee> Employees = a.GetSalaryByRole("Engineer");
         a.printSalaries(Employees);
         a.Disconnect();
     }
