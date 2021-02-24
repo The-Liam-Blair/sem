@@ -192,7 +192,6 @@ public class App {
             return null;
         }
     }
-
     public void printSalaries(ArrayList<Employee> Employees)
     {
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp no", "First Name", "Last Name", "Salary"));
