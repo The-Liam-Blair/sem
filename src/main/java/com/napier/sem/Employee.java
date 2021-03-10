@@ -12,5 +12,6 @@ public class Employee {
     public int salary;
 
     public String dept_name;
-    public String manager;
+    public Employee manager;
+    public Department dept;
 }
