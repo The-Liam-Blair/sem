@@ -1,5 +1,5 @@
-## Software Engineering Methods - Develop Branch
-VERSION 0.1.0.4
+## Software Engineering Methods - Master
+Contains work I've done for the software engineer methods module for university (Y2 T2)
 
 
 **Master Build Status:**
