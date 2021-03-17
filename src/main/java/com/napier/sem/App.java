@@ -156,8 +156,17 @@ public class App {
     }
 
     public void printSalaries(ArrayList<Employee> Employees) {
+        if(Employees == null)
+        {
+            System.out.println("No employees");
+            return;
+        }
         System.out.println(String.format("%-10s %-15s %-20s %-8s", "Emp no", "First Name", "Last Name", "Salary"));
         for (Employee emp : Employees) {
+            if (emp == null)
+            {
+                continue;
+            }
             String emp_string = String.format("%-10s %-15s %-20s %-8s", emp.emp_no, emp.first_name, emp.last_name, emp.salary);
             System.out.println(emp_string);
         }
