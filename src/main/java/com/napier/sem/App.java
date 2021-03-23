@@ -33,7 +33,7 @@ public class App {
                 Thread.sleep(30000);
 
                 // Attempt connection to the database
-                con = DriverManager.getConnection("jdbc:mysql://" + location + "/employees?allowPublicKeyRetrieval=true&?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" + location + "/employees?allowPublicKeyRetrieval=true&useSSL=false", "root", "example");
                 System.out.println("Successful connection");
                 break;
             }
