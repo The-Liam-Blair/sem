@@ -220,7 +220,15 @@ public class App {
 
     public static void main(String[] args) {
         App a = new App();
-        a.Connect("localhost:33060");
+
+        if(args.length < 1)
+        {
+            a.Connect("localhost:33060");
+        }
+        else
+        {
+            a.Connect(args[0]);
+        }
         ArrayList<Employee> Employees = a.GetSalariesByDepartment("d001");
         a.printSalaries(Employees);
         a.Disconnect();
