@@ -223,7 +223,7 @@ public class App {
 
         if(args.length < 1)
         {
-            a.Connect("localhost:33060");
+            a.Connect("localhost:3306");
         }
         else
         {
