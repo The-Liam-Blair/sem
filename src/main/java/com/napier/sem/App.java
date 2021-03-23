@@ -11,29 +11,39 @@ public class App {
     // Attempts to connect to the database.
     // Attempts it up to 10 times.
     // Throws error if thread is interrupted or SQL connection error occurs.
-    public void Connect() {
-        try {
+    public void Connect(String location) {
+        try
+        {
             Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
+        }
+
+        catch (ClassNotFoundException e)
+        {
             System.out.println("SQL driver could not be loaded");
             System.exit(-1);
         }
 
         int tries = 10;
-        for (int i = 0; i < tries; i++) {
+        for (int i = 0; i < tries; i++)
+        {
             System.out.println("Connecting to database...");
-            try {
+            try
+            {
                 // Wait for database to start
                 Thread.sleep(30000);
 
                 // Attempt connection to the database
-                con = DriverManager.getConnection("jdbc:mysql://db:3306/employees?useSSL=false", "root", "example");
+                con = DriverManager.getConnection("jdbc:mysql://" + location + "/employees?allowPublicKeyRetrieval=true&?useSSL=false", "root", "example");
                 System.out.println("Successful connection");
                 break;
-            } catch (SQLException e) {
+            }
+            catch (SQLException e)
+            {
                 System.out.println("Failed to connect to database on attempt number " + i);
                 System.out.println(e.getMessage());
-            } catch (InterruptedException e) {
+            }
+            catch (InterruptedException e)
+            {
                 System.out.println("Thread interrupted.");
             }
         }
@@ -210,7 +220,7 @@ public class App {
 
     public static void main(String[] args) {
         App a = new App();
-        a.Connect();
+        a.Connect("localhost:33060");
         ArrayList<Employee> Employees = a.GetSalariesByDepartment("d001");
         a.printSalaries(Employees);
         a.Disconnect();
