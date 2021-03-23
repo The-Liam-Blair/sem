@@ -18,13 +18,13 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>[5.1.44,)</version>
+            <version>[8.0.23,)</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-assembly-plugin</artifactId>
-            <version>[3.3.0,)</version>
+            <version>3.3.0</version>
             <type>maven-plugin</type>
         </dependency>
 
@@ -34,6 +34,13 @@
             <version>[5.1.0,)</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -84,7 +91,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.2</version>
+                <version>0.8.6</version>
                 <executions>
                     <execution>
                         <goals>

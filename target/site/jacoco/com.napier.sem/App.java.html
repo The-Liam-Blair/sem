@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">seMethods</a> &gt; <a href="index.source.html" class="el_package">com.napier.sem</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package com.napier.sem;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+
+<span class="fc" id="L7">public class App {</span>
+
+<span class="fc" id="L9">    private Connection con = null;</span>
+
+    // Attempts to connect to the database.
+    // Attempts it up to 10 times.
+    // Throws error if thread is interrupted or SQL connection error occurs.
+    public void Connect(String location) {
+        try
+        {
+<span class="fc" id="L17">            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span>
+        }
+
+<span class="nc" id="L20">        catch (ClassNotFoundException e)</span>
+        {
+<span class="nc" id="L22">            System.out.println(&quot;SQL driver could not be loaded&quot;);</span>
+<span class="nc" id="L23">            System.exit(-1);</span>
+<span class="fc" id="L24">        }</span>
+
+<span class="fc" id="L26">        int tries = 10;</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">        for (int i = 0; i &lt; tries; i++)</span>
+        {
+<span class="fc" id="L29">            System.out.println(&quot;Connecting to database...&quot;);</span>
+            try
+            {
+                // Wait for database to start
+<span class="fc" id="L33">                Thread.sleep(30000);</span>
+
+                // Attempt connection to the database
+<span class="fc" id="L36">                con = DriverManager.getConnection(&quot;jdbc:mysql://&quot; + location + &quot;/employees?allowPublicKeyRetrieval=true&amp;useSSL=false&quot;, &quot;root&quot;, &quot;example&quot;);</span>
+<span class="fc" id="L37">                System.out.println(&quot;Successful connection&quot;);</span>
+<span class="fc" id="L38">                break;</span>
+            }
+<span class="nc" id="L40">            catch (SQLException e)</span>
+            {
+<span class="nc" id="L42">                System.out.println(&quot;Failed to connect to database on attempt number &quot; + i);</span>
+<span class="nc" id="L43">                System.out.println(e.getMessage());</span>
+            }
+<span class="nc" id="L45">            catch (InterruptedException e)</span>
+            {
+<span class="nc" id="L47">                System.out.println(&quot;Thread interrupted.&quot;);</span>
+<span class="nc" id="L48">            }</span>
+        }
+<span class="fc" id="L50">    }</span>
+
+    // Severs connection from the database.
+    // Throws an error if the connection could not be severed.
+    public void Disconnect() {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (con != null) {</span>
+            try {
+<span class="nc" id="L57">                con.close();</span>
+<span class="nc" id="L58">            } catch (Exception e) {</span>
+<span class="nc" id="L59">                System.out.println(&quot;Error closing connection to database...&quot;);</span>
+<span class="nc" id="L60">            }</span>
+        }
+<span class="nc" id="L62">    }</span>
+
+    public Employee getEmployee(int ID) {
+        try {
+            // Statement object created
+<span class="fc" id="L67">            Statement stmt = con.createStatement();</span>
+
+            // Query string created
+<span class="fc" id="L70">            String strSelect =</span>
+                    &quot;SELECT employees.emp_no, first_name, last_name, title, salary &quot;
+                            + &quot;FROM titles JOIN employees ON (titles.emp_no = employees.emp_no) &quot; +
+                            &quot;JOIN salaries ON (employees.emp_no = salaries.emp_no) &quot;
+                            + &quot;WHERE employees.emp_no = &quot; + ID;
+
+            // Execute query
+<span class="fc" id="L77">            ResultSet rset = stmt.executeQuery(strSelect);</span>
+
+            // Output.
+            // Returns database information represented as the Employee class if
+            // a valid ID was found.
+<span class="fc" id="L82">            Employee emp = new Employee();</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">            if (rset.next()) {</span>
+<span class="fc" id="L84">                emp.emp_no = rset.getInt(&quot;employees.emp_no&quot;);</span>
+<span class="fc" id="L85">                emp.first_name = rset.getString(&quot;first_name&quot;);</span>
+<span class="fc" id="L86">                emp.last_name = rset.getString(&quot;last_name&quot;);</span>
+<span class="fc" id="L87">                emp.title = rset.getString(&quot;title&quot;);</span>
+<span class="fc" id="L88">                emp.salary = rset.getInt(&quot;salary&quot;);</span>
+            } else {
+<span class="nc" id="L90">                return null;</span>
+            }
+<span class="fc" id="L92">            return emp;</span>
+<span class="nc" id="L93">        } catch (Exception e) {</span>
+<span class="nc" id="L94">            System.out.println(&quot;Failed to retrieve employee details.&quot;);</span>
+<span class="nc" id="L95">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L96">            return null;</span>
+        }
+    }
+
+    public void displayEmployee(Employee emp) {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (emp != null) {</span>
+<span class="nc" id="L102">            System.out.println(</span>
+                    emp.emp_no + &quot; &quot;
+                            + emp.first_name + &quot; &quot;
+                            + emp.last_name + &quot;\n&quot;
+                            + emp.title + &quot;\n&quot;
+                            + &quot;Salary: &quot; + emp.salary + &quot;\n&quot;);
+        }
+<span class="nc" id="L109">    }</span>
+
+    public ArrayList&lt;Employee&gt; getAllSalaries() {
+        try {
+<span class="nc" id="L113">            Statement stmt = con.createStatement();</span>
+<span class="nc" id="L114">            String strSelect = &quot;SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary &quot;</span>
+                    + &quot;FROM employees, salaries &quot;
+                    + &quot;WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' &quot;
+                    + &quot;ORDER BY employees.emp_no ASC&quot;;
+
+<span class="nc" id="L119">            ResultSet rset = stmt.executeQuery(strSelect);</span>
+<span class="nc" id="L120">            ArrayList&lt;Employee&gt; Employees = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            while (rset.next()) {</span>
+<span class="nc" id="L123">                Employee tempEmp = new Employee();</span>
+<span class="nc" id="L124">                tempEmp.emp_no = rset.getInt(&quot;employees.emp_no&quot;);</span>
+<span class="nc" id="L125">                tempEmp.first_name = rset.getString(&quot;employees.first_name&quot;);</span>
+<span class="nc" id="L126">                tempEmp.last_name = rset.getString(&quot;employees.last_name&quot;);</span>
+<span class="nc" id="L127">                tempEmp.salary = rset.getInt(&quot;salaries.salary&quot;);</span>
+<span class="nc" id="L128">                Employees.add(tempEmp);</span>
+<span class="nc" id="L129">            }</span>
+<span class="nc" id="L130">            return Employees;</span>
+<span class="nc" id="L131">        } catch (Exception e) {</span>
+<span class="nc" id="L132">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L133">            System.out.println(&quot;Failed to retrieve salary details&quot;);</span>
+<span class="nc" id="L134">            return null;</span>
+        }
+    }
+
+    public ArrayList&lt;Employee&gt; GetSalaryByRole(String role) {
+        try {
+<span class="nc" id="L140">            Statement stmt = con.createStatement();</span>
+<span class="nc" id="L141">            String strSelect = &quot;SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary &quot;</span>
+                    + &quot;FROM employees, salaries, titles &quot;
+                    + &quot;WHERE employees.emp_no = salaries.emp_no &quot;
+                    + &quot;AND employees.emp_no = titles.emp_no &quot;
+                    + &quot;AND salaries.to_date = '9999-01-01' &quot;
+                    + &quot;AND titles.title = '&quot; + role + &quot;' &quot;
+                    + &quot;ORDER BY employees.emp_no ASC&quot;;
+
+<span class="nc" id="L149">            ResultSet rset = stmt.executeQuery(strSelect);</span>
+<span class="nc" id="L150">            ArrayList&lt;Employee&gt; Employees = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L152" title="All 2 branches missed.">            while (rset.next()) {</span>
+<span class="nc" id="L153">                Employee tempEmp = new Employee();</span>
+<span class="nc" id="L154">                tempEmp.emp_no = rset.getInt(&quot;employees.emp_no&quot;);</span>
+<span class="nc" id="L155">                tempEmp.first_name = rset.getString(&quot;employees.first_name&quot;);</span>
+<span class="nc" id="L156">                tempEmp.last_name = rset.getString(&quot;employees.last_name&quot;);</span>
+<span class="nc" id="L157">                tempEmp.salary = rset.getInt(&quot;salaries.salary&quot;);</span>
+<span class="nc" id="L158">                Employees.add(tempEmp);</span>
+<span class="nc" id="L159">            }</span>
+<span class="nc" id="L160">            return Employees;</span>
+<span class="nc" id="L161">        } catch (Exception e) {</span>
+<span class="nc" id="L162">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L163">            System.out.println(&quot;Failed to retrieve salary details&quot;);</span>
+<span class="nc" id="L164">            return null;</span>
+        }
+    }
+
+    public void printSalaries(ArrayList&lt;Employee&gt; Employees) {
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if(Employees == null)</span>
+        {
+<span class="nc" id="L171">            System.out.println(&quot;No employees&quot;);</span>
+<span class="nc" id="L172">            return;</span>
+        }
+<span class="nc" id="L174">        System.out.println(String.format(&quot;%-10s %-15s %-20s %-8s&quot;, &quot;Emp no&quot;, &quot;First Name&quot;, &quot;Last Name&quot;, &quot;Salary&quot;));</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        for (Employee emp : Employees) {</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">            if (emp == null)</span>
+            {
+<span class="nc" id="L178">                continue;</span>
+            }
+<span class="nc" id="L180">            String emp_string = String.format(&quot;%-10s %-15s %-20s %-8s&quot;, emp.emp_no, emp.first_name, emp.last_name, emp.salary);</span>
+<span class="nc" id="L181">            System.out.println(emp_string);</span>
+<span class="nc" id="L182">        }</span>
+<span class="nc" id="L183">    }</span>
+
+
+    public ArrayList&lt;Employee&gt; GetSalariesByDepartment(String dept_no) {
+<span class="nc" id="L187">        ArrayList&lt;Employee&gt; Employees = new ArrayList&lt;Employee&gt;();</span>
+        try
+        {
+<span class="nc" id="L190">            Statement stmt = con.createStatement();</span>
+<span class="nc" id="L191">            String query = &quot;SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary &quot;</span>
+                    +&quot;FROM employees, salaries, dept_emp, departments &quot;
+                    +&quot;WHERE employees.emp_no = salaries.emp_no &quot;
+                    +&quot;AND employees.emp_no = dept_emp.emp_no &quot;
+                    +&quot;AND dept_emp.emp_no = departments.dept_no &quot;
+                    +&quot;AND salaries.to_date = '9999-01-01' &quot;
+                    +&quot;AND departments.dept_no = '&quot; + dept_no + &quot;'&quot;
+                    +&quot;ORDER BY employees.emp_no ASC&quot;;
+<span class="nc" id="L199">            ResultSet rset = stmt.executeQuery(query);</span>
+
+<span class="nc bnc" id="L201" title="All 2 branches missed.">            while(rset.next())</span>
+            {
+<span class="nc" id="L203">                Employee Emp = new Employee();</span>
+<span class="nc" id="L204">                Emp.first_name = rset.getString(&quot;employees.first_name&quot;);</span>
+<span class="nc" id="L205">                Emp.last_name = rset.getString(&quot;employees.last_name&quot;);</span>
+<span class="nc" id="L206">                Emp.emp_no = rset.getInt(&quot;employees.emp_no&quot;);</span>
+<span class="nc" id="L207">                Emp.salary = rset.getInt(&quot;employees.salary&quot;);</span>
+<span class="nc" id="L208">                Employees.add(Emp);</span>
+<span class="nc" id="L209">            }</span>
+        }
+<span class="nc" id="L211">        catch(Exception e)</span>
+        {
+<span class="nc" id="L213">            System.out.println(e.getMessage());</span>
+<span class="nc" id="L214">            System.out.println(&quot;Failed to retrieve salaries by department.&quot;);</span>
+<span class="nc" id="L215">        }</span>
+
+<span class="nc" id="L217">        return Employees;</span>
+    }
+
+
+    public static void main(String[] args) {
+<span class="nc" id="L222">        App a = new App();</span>
+
+<span class="nc bnc" id="L224" title="All 2 branches missed.">        if(args.length &lt; 1)</span>
+        {
+<span class="nc" id="L226">            a.Connect(&quot;localhost:3306&quot;);</span>
+        }
+        else
+        {
+<span class="nc" id="L230">            a.Connect(args[0]);</span>
+        }
+<span class="nc" id="L232">        ArrayList&lt;Employee&gt; Employees = a.GetSalariesByDepartment(&quot;d001&quot;);</span>
+<span class="nc" id="L233">        a.printSalaries(Employees);</span>
+<span class="nc" id="L234">        a.Disconnect();</span>
+<span class="nc" id="L235">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
