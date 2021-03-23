@@ -17,5 +17,18 @@ install:
 before_script:
   - mvn clean
 
-script:
-  - mvn test -Dtest=com.napier.sem.test
+jobs:
+  include:
+    - stage: unit tests
+      install: skip
+      jdk: oraclejdk11
+      script: mvn test -Dtest=com.napier.sem.test
+
+    - stage: integration tests
+      jdk: oraclejdk11
+      script: echo "Integration files"
+
+    - stage: deploy
+      install: skip
+      jdk: oraclejdk11
+      script: echo "Deploy"
